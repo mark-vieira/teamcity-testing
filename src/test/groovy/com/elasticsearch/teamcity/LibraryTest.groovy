@@ -15,6 +15,5 @@ class LibraryTest extends Specification {
 
         then:
         result == true
-        result == false
     }
 }
