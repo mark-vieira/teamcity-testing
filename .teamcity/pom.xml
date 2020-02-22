@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <name>TeamcityTesting_Master Config DSL Script</name>
-  <groupId>TeamcityTesting_Master</groupId>
-  <artifactId>TeamcityTesting_Master_dsl</artifactId>
+  <name>TeamcityTesting Config DSL Script</name>
+  <groupId>TeamcityTesting</groupId>
+  <artifactId>TeamcityTesting_dsl</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <parent>
