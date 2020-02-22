@@ -34,6 +34,8 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2019.2"
 
 project {
+    vcsRoot(PullRequestVcsRoot)
+
     buildType {
         id("StagePassedIntake")
         name = "[Stage] Passed Intake"
@@ -101,7 +103,7 @@ project {
 }
 
 object PullRequestVcsRoot : GitVcsRoot({
-    id("TeamcityTestingPullRequest")
+    id("PullRequest")
     name = "teamcity-testing-pull-request"
     url = "https://github.com/mark-vieira/teamcity-testing.git"
     branch = "${DslContext.settingsRoot.paramRefs["branch"]}"
