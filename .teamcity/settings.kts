@@ -38,6 +38,20 @@ project {
         name = "[Stage] Passed Intake"
         type = BuildTypeSettings.Type.COMPOSITE
 
+        vcs {
+            root(DslContext.settingsRoot)
+        }
+
+        triggers {
+            vcs {
+                branchFilter = "+:<default>"
+                perCheckinTriggering = true
+                groupCheckinsByCommitter = true
+                enableQueueOptimization = false
+                triggerRules = "-:.teamcity/**"
+            }
+        }
+
         dependencies {
             snapshot(Intake_Test) {
                 onDependencyFailure = FailureAction.FAIL_TO_START
@@ -107,24 +121,10 @@ object Intake_SanityCheck : BuildType({
 object Intake_Test : BuildType({
     name = "Run Tests"
 
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-
     steps {
         gradle {
             tasks = "check"
             buildFile = ""
-        }
-    }
-
-    triggers {
-        vcs {
-            branchFilter = "-:refs/pull/*"
-            perCheckinTriggering = true
-            groupCheckinsByCommitter = true
-            enableQueueOptimization = false
-            triggerRules = "-:.teamcity/**"
         }
     }
 
