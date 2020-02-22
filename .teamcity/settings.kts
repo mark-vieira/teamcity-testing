@@ -150,6 +150,10 @@ object Intake_SanityCheck : BuildType({
 object Intake_Test : BuildType({
     name = "Run Tests"
 
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
     steps {
         gradle {
             tasks = "check"
