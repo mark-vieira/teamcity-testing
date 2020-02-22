@@ -26,4 +26,14 @@ changeBuildType(RelativeId("Periodic_Check")) {
             param("revisionRuleDependsOn", "TeamcityTesting_Master_Intake_Test")
         }
     }
+
+    dependencies {
+        add(RelativeId("Intake_Test")) {
+            snapshot {
+                onDependencyFailure = FailureAction.CANCEL
+                onDependencyCancel = FailureAction.CANCEL
+            }
+        }
+
+    }
 }
