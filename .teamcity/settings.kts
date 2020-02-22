@@ -170,6 +170,7 @@ object Periodic_Check : BuildType({
                 promoteWatchedBuild = true
             }
             withPendingChangesOnly = false
+            branchFilter = "+:<default>"
         }
     }
 
