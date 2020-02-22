@@ -73,6 +73,14 @@ project {
             root(PullRequestVcsRoot)
         }
 
+        triggers {
+            vcs {
+                branchFilter = "+:refs/pull/*"
+                enableQueueOptimization = true
+                triggerRules = "-:.teamcity/**"
+            }
+        }
+
         features {
             pullRequests {
                 vcsRootExtId = "${PullRequestVcsRoot.id}"
