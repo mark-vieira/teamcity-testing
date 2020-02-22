@@ -4,6 +4,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPu
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.vcsLabeling
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.ScheduleTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
@@ -140,9 +141,21 @@ object Periodic_Check : BuildType({
             schedulingPolicy = cron {
                 hours = "0/8"
             }
-            triggerBuild = always()
+            triggerBuild = onWatchedBuildChange {
+                buildType = "TeamcityTesting_Master_Intake_Test"
+                watchedBuildRule = ScheduleTrigger.WatchedBuildRule.LAST_SUCCESSFUL
+                watchedBuildTag = ""
+                watchedBuildBranchFilter = "+:<default>"
+                promoteWatchedBuild = true
+            }
             withPendingChangesOnly = false
         }
+    }
 
+    dependencies {
+        snapshot(Intake_Test) {
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
+        }
     }
 })
