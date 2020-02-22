@@ -56,13 +56,14 @@ project {
         }
     }
 
-    subProjectsOrder = listOf(Intake, ExhaustiveTesting)
+    subProjects(Intake, ExhaustiveTesting)
 }
 
 object Intake : Project({
     name = "Intake Checks"
 
-    buildTypesOrder = listOf(Intake_SanityCheck, Intake_Test)
+    buildType(Intake_SanityCheck)
+    buildType(Intake_Test)
 })
 
 object Intake_SanityCheck : BuildType({
