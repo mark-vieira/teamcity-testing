@@ -33,16 +33,28 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2019.2"
 
 project {
+    buildType {
+        name = "[Stage] Passed Intake"
+        type = BuildTypeSettings.Type.COMPOSITE
+
+        dependencies {
+            snapshot(Intake_Test) {
+                onDependencyFailure = FailureAction.FAIL_TO_START
+                onDependencyCancel = FailureAction.CANCEL
+            }
+        }
+    }
+
     subProject(Periodic)
     subProject(Intake)
 }
 
 
 object Intake : Project({
-    name = "Intake"
+    name = "Intake Checks"
 
-    buildType(Intake_Test)
     buildType(Intake_SanityCheck)
+    buildType(Intake_Test)
 })
 
 object Intake_SanityCheck : BuildType({
@@ -61,7 +73,7 @@ object Intake_SanityCheck : BuildType({
 })
 
 object Intake_Test : BuildType({
-    name = "Test"
+    name = "Run Tests"
 
     vcs {
         root(DslContext.settingsRoot)
@@ -111,19 +123,20 @@ object Intake_Test : BuildType({
     dependencies {
         snapshot(Intake_SanityCheck) {
             onDependencyFailure = FailureAction.FAIL_TO_START
+            onDependencyCancel = FailureAction.CANCEL
         }
     }
 })
 
 
 object Periodic : Project({
-    name = "Periodic"
+    name = "Periodic Checks"
 
     buildType(Periodic_Check)
 })
 
 object Periodic_Check : BuildType({
-    name = "Check"
+    name = "Hourly Periodic"
 
     vcs {
         root(DslContext.settingsRoot)
