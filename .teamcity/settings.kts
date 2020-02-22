@@ -85,8 +85,8 @@ project {
 object Intake : Project({
     name = "Intake Checks"
 
-    buildType(Intake_SanityCheck)
     buildType(Intake_Test)
+    buildType(Intake_SanityCheck)
 })
 
 object Intake_SanityCheck : BuildType({
@@ -120,7 +120,7 @@ object Intake_Test : BuildType({
 
     triggers {
         vcs {
-            branchFilter = ""
+            branchFilter = "-:refs/pull/*"
             perCheckinTriggering = true
             groupCheckinsByCommitter = true
             enableQueueOptimization = false
