@@ -75,7 +75,7 @@ project {
 
         triggers {
             vcs {
-                branchFilter = "+:refs/pull/*"
+                branchFilter = "+:pull/*"
                 enableQueueOptimization = true
                 triggerRules = "-:.teamcity/**"
             }
