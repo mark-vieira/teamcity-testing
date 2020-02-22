@@ -1,5 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.PullRequests
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.vcsLabeling
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
@@ -88,12 +89,19 @@ object Intake_Test : BuildType({
             successfulOnly = true
             branchFilter = ""
         }
-
         pullRequests {
             provider = github {
                 authType = vcsRoot()
                 filterTargetBranch = "${DslContext.settingsRoot.paramRefs["branch"]}"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+        }
+        commitStatusPublisher {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:0f60167b-3e37-4683-804e-fdbf52a8dd0a"
+                }
             }
         }
     }
