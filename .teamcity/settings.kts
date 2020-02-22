@@ -1,6 +1,7 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.vcsLabeling
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
 /*
@@ -115,16 +116,14 @@ object Periodic_Check : BuildType({
         }
     }
 
-    dependencies {
-        dependency(Intake_Test) {
-            snapshot {
-                onDependencyFailure = FailureAction.FAIL_TO_START
+    triggers {
+        schedule {
+            schedulingPolicy = cron {
+                hours = "0/8"
             }
-
-            artifacts {
-                buildRule = lastSuccessful()
-                artifactRules = "build.gradle.kts"
-            }
+            triggerBuild = always()
+            withPendingChangesOnly = false
         }
+
     }
 })
