@@ -34,6 +34,8 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2019.2"
 
 project {
+    params.param("teamcity.ui.settings.readOnly", "true")
+
     vcsRoot(PullRequestVcsRoot)
 
     buildType {
