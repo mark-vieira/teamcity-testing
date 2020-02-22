@@ -79,6 +79,7 @@ object Intake_Test : BuildType({
             perCheckinTriggering = true
             groupCheckinsByCommitter = true
             enableQueueOptimization = false
+            triggerRules = "-:.teamcity/**"
         }
     }
 
@@ -92,7 +93,7 @@ object Intake_Test : BuildType({
         pullRequests {
             provider = github {
                 authType = vcsRoot()
-                filterTargetBranch = "${DslContext.settingsRoot.paramRefs["branch"]}"
+                filterTargetBranch = "refs/heads/${DslContext.settingsRoot.paramRefs["branch"]}"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
