@@ -69,11 +69,13 @@ project {
         type = BuildTypeSettings.Type.COMPOSITE
 
         vcs {
+            root(DslContext.settingsRoot)
             root(PullRequestVcsRoot)
         }
 
         features {
             pullRequests {
+                vcsRootExtId = "${PullRequestVcsRoot.id}"
                 provider = github {
                     authType = vcsRoot()
                     filterTargetBranch = "refs/heads/${PullRequestVcsRoot.paramRefs["branch"]}"
@@ -81,6 +83,7 @@ project {
                 }
             }
             commitStatusPublisher {
+                vcsRootExtId = "${PullRequestVcsRoot.id}"
                 publisher = github {
                     githubUrl = "https://api.github.com"
                     authType = personalToken {
