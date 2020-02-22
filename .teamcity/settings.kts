@@ -93,7 +93,6 @@ project {
                 }
             }
             commitStatusPublisher {
-                vcsRootExtId = "${PullRequestVcsRoot.id}"
                 publisher = github {
                     githubUrl = "https://api.github.com"
                     authType = personalToken {
@@ -141,6 +140,17 @@ object Intake_SanityCheck : BuildType({
         root(DslContext.settingsRoot)
     }
 
+    features {
+        commitStatusPublisher {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:0f60167b-3e37-4683-804e-fdbf52a8dd0a"
+                }
+            }
+        }
+    }
+
     steps {
         gradle {
             tasks = "classes testClasses"
@@ -154,6 +164,17 @@ object Intake_Test : BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
+    }
+
+    features {
+        commitStatusPublisher {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:0f60167b-3e37-4683-804e-fdbf52a8dd0a"
+                }
+            }
+        }
     }
 
     steps {
