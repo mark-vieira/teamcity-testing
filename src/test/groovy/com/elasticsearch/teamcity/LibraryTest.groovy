@@ -20,6 +20,5 @@ class LibraryTest extends Specification {
     def "some other test"() {
         expect:
         true == true
-        noExceptionThrown()
     }
 }
