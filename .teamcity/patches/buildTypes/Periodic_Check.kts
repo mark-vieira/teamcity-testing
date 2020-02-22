@@ -22,8 +22,13 @@ changeBuildType(RelativeId("Periodic_Check")) {
             }
         }
         trigger1.apply {
-            param("revisionRule", "lastSuccessful")
-            param("revisionRuleDependsOn", "TeamcityTesting_Master_Intake_Test")
+            triggerBuild = onWatchedBuildChange {
+                buildType = "TeamcityTesting_Master_Intake_Test"
+                watchedBuildRule = ScheduleTrigger.WatchedBuildRule.LAST_SUCCESSFUL
+                watchedBuildTag = ""
+                watchedBuildBranchFilter = "+:<default>"
+                promoteWatchedBuild = true
+            }
         }
     }
 
