@@ -10,6 +10,6 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("StagePullRequest")) {
     vcs {
-        add(DslContext.settingsRoot.id!!)
+        add(RelativeId("TeamcityTestingMaster"))
     }
 }
