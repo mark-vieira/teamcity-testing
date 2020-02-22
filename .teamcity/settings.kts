@@ -139,7 +139,7 @@ object Periodic_Check : BuildType({
     triggers {
         schedule {
             schedulingPolicy = cron {
-                hours = "0/8"
+                minutes = "0/10"
             }
             triggerBuild = onWatchedBuildChange {
                 buildType = "TeamcityTesting_Master_Intake_Test"
