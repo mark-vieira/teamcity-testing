@@ -34,7 +34,3 @@ dependencies {
     testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
     testImplementation("junit:junit:4.12")
 }
-
-if (System.getProperty("build.fail", "false").toBoolean()) {
-    throw GradleException("Build failed.")
-}
