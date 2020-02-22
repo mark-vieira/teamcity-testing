@@ -34,6 +34,7 @@ version = "2019.2"
 
 project {
     buildType {
+        id("StagePassedIntake")
         name = "[Stage] Passed Intake"
         type = BuildTypeSettings.Type.COMPOSITE
 
