@@ -7,6 +7,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.ScheduleTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -65,11 +66,15 @@ project {
         name = "[Stage] Pull Request"
         type = BuildTypeSettings.Type.COMPOSITE
 
+        vcs {
+            root(PullRequestVcsRoot)
+        }
+
         features {
             pullRequests {
                 provider = github {
                     authType = vcsRoot()
-                    filterTargetBranch = "refs/heads/${DslContext.settingsRoot.paramRefs["branch"]}"
+                    filterTargetBranch = "refs/heads/${PullRequestVcsRoot.paramRefs["branch"]}"
                     filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
                 }
             }
@@ -95,6 +100,17 @@ project {
     subProject(Intake)
 }
 
+object PullRequestVcsRoot : GitVcsRoot({
+    id("TeamcityTestingPullRequest")
+    name = "teamcity-testing-pull-request"
+    url = "https://github.com/mark-vieira/teamcity-testing.git"
+    branch = "${DslContext.settingsRoot.paramRefs["branch"]}"
+    branchSpec = "+:refs/heads/(${DslContext.settingsRoot.paramRefs["branch"]})"
+    authMethod = password {
+        userName = "mark-vieira"
+        password = "credentialsJSON:0f60167b-3e37-4683-804e-fdbf52a8dd0a"
+    }
+})
 
 object Intake : Project({
     name = "Intake Checks"
