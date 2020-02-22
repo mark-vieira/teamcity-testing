@@ -46,6 +46,37 @@ project {
         }
     }
 
+    buildType {
+        id("StagePullRequest")
+        name = "[Stage] Pull Request"
+        type = BuildTypeSettings.Type.COMPOSITE
+
+        features {
+            pullRequests {
+                provider = github {
+                    authType = vcsRoot()
+                    filterTargetBranch = "refs/heads/${DslContext.settingsRoot.paramRefs["branch"]}"
+                    filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
+                }
+            }
+            commitStatusPublisher {
+                publisher = github {
+                    githubUrl = "https://api.github.com"
+                    authType = personalToken {
+                        token = "credentialsJSON:0f60167b-3e37-4683-804e-fdbf52a8dd0a"
+                    }
+                }
+            }
+        }
+
+        dependencies {
+            snapshot(Intake_Test) {
+                onDependencyFailure = FailureAction.FAIL_TO_START
+                onDependencyCancel = FailureAction.CANCEL
+            }
+        }
+    }
+
     subProject(Periodic)
     subProject(Intake)
 }
@@ -94,30 +125,6 @@ object Intake_Test : BuildType({
             groupCheckinsByCommitter = true
             enableQueueOptimization = false
             triggerRules = "-:.teamcity/**"
-        }
-    }
-
-    features {
-        vcsLabeling {
-            vcsRootId = "${DslContext.settingsRoot.id}"
-            labelingPattern = "lgc-${DslContext.settingsRoot.paramRefs["branch"]}"
-            successfulOnly = true
-            branchFilter = ""
-        }
-        pullRequests {
-            provider = github {
-                authType = vcsRoot()
-                filterTargetBranch = "refs/heads/${DslContext.settingsRoot.paramRefs["branch"]}"
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
-            }
-        }
-        commitStatusPublisher {
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:0f60167b-3e37-4683-804e-fdbf52a8dd0a"
-                }
-            }
         }
     }
 
