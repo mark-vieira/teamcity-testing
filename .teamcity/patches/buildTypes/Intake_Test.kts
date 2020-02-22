@@ -2,6 +2,7 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.PullRequests
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
@@ -27,6 +28,16 @@ changeBuildType(RelativeId("Intake_Test")) {
                 authType = vcsRoot()
                 filterTargetBranch = "refs/heads/${DslContext.settingsRoot.paramRefs["branch"]}"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+        }
+        add {
+            commitStatusPublisher {
+                publisher = github {
+                    githubUrl = "https://api.github.com"
+                    authType = personalToken {
+                        token = "credentialsJSON:0f60167b-3e37-4683-804e-fdbf52a8dd0a"
+                    }
+                }
             }
         }
     }
