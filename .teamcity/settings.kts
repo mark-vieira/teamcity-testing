@@ -1,4 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.PullRequests
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.vcsLabeling
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.schedule
@@ -82,9 +84,17 @@ object Intake_Test : BuildType({
     features {
         vcsLabeling {
             vcsRootId = "${DslContext.settingsRoot.id}"
-            labelingPattern = "lgc-%vcsroot.branch%"
+            labelingPattern = "lgc-${DslContext.settingsRoot.paramRefs["branch"]}"
             successfulOnly = true
             branchFilter = ""
+        }
+
+        pullRequests {
+            provider = github {
+                authType = vcsRoot()
+                filterTargetBranch = "${DslContext.settingsRoot.paramRefs["branch"]}"
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
         }
     }
 
