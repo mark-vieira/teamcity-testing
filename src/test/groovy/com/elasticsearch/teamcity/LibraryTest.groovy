@@ -16,4 +16,17 @@ class LibraryTest extends Specification {
         then:
         result == true
     }
+
+    def "some other test"() {
+        expect:
+        true == true
+    }
+
+    def "yet another test"() {
+        when:
+        def result = 2 + 2
+
+        then:
+        result == 4
+    }
 }
